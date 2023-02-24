@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { GiPokecog, MdCatchingPokemon } from 'react-icons/all'
 
-import styles from './Detail.module.css'
+import styles from './About.module.css'
+import { toast } from "react-hot-toast"
 
-export const InfoPokemon = () => {
+export const About = () => {
 
     const { id } = useParams()
     const [pokemon, setPokemon] = useState()
@@ -30,21 +31,21 @@ export const InfoPokemon = () => {
 
     // J'AJOUTE AU STATE TEAM LE POKEMON SELECTIONNE
     const grab = () => {
+        toast('You got it')
         setTeam(current => [...current, pokemon.id])
     }
 
     // J'ENLEVE AU STATE TEAM LE POKEMON SELECTIONNE
     const release = () => {
+        toast('You let it gooooo !')
         // current est la copy de la valeur actuelle dans team
         setTeam(current => current.filter(id => id !== pokemon.id))
     }
 
     return (
-        <>
-            <Link to={'/'}>Back</Link>
+        <div className={styles.container}>
             <div className={styles.banner}>
                 <h1>#{id} - {pokemon?.name}</h1>
-                <p>{JSON.stringify(team)}</p>
                 {/* SI ? ALORS : SINON */}
                 {team.includes(Number(id)) ?
                     <GiPokecog size={32} color={'#F00'} onClick={release} />
@@ -55,6 +56,7 @@ export const InfoPokemon = () => {
             <img src={pokemon?.sprites.front_default} />
             <img src={pokemon?.sprites.back_default} />
             {pokemon?.types.map((type, index) => <p key={index}>{type.type.name}</p>)}
-        </>
+
+        </div>
     )
 }
